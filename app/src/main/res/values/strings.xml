@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CloverSelfOrder</string>
+    <string name="title_activity_passcode_page">PasscodePage</string>
+</resources>

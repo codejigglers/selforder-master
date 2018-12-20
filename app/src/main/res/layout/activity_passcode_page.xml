@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".PasscodePage"
+    tools:showIn="@layout/activity_passcode_page">
+
+    <TextView
+        android:id="@+id/line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter the passcode below"
+        app:layout_constraintBottom_toTopOf="@+id/line2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/line2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(Please ask the attendant for your active passcode)"
+        app:layout_constraintBottom_toTopOf="@+id/passCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/passCode"
+        android:layout_width="wrap_content"
+        android:layout_height="120sp"
+        android:focusedByDefault="true"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </EditText>
+
+</android.support.constraint.ConstraintLayout>
