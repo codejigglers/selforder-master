@@ -7,6 +7,6 @@ import retrofit2.http.Path;
 
 public interface selfOrderApi {
     //https://api.myjson.com/bins/vi74w
-    @GET("bins/vi74w")
+    @GET("bins/12o2bc")
     Call<Order> getUser();
 }

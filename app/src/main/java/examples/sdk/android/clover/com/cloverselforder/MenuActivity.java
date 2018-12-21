@@ -21,10 +21,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import examples.sdk.android.clover.com.cloverselforder.pojo.Items;
+import examples.sdk.android.clover.com.cloverselforder.pojo.MainItems;
 import examples.sdk.android.clover.com.cloverselforder.pojo.Order;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +48,7 @@ public class MenuActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    Items[] item;
+    public Items[] item;
     int len = 1;
 
     @Override
@@ -58,14 +60,7 @@ public class MenuActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
-        tabLayout.setupWithViewPager(mViewPager);
         selfOrderApi service = RetrofitInstance.getRetrofitInstance().create(selfOrderApi.class);
 
         /*Call the method with parameter in the interface to get the employee data*/
@@ -78,7 +73,15 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
                 item = response.body().getMerchant().getItems();
-                //Toast.makeText(MenuActivity.this, response.body().getMerchant().getItems().length, Toast.LENGTH_LONG).show();
+                findViewById(R.id.progress).setVisibility(View.GONE);
+                findViewById(R.id.appbar).setVisibility(View.VISIBLE);
+                findViewById(R.id.container).setVisibility(View.VISIBLE);
+                mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+                // Set up the ViewPager with the sections adapter.
+                mViewPager = (ViewPager) findViewById(R.id.container);
+                mViewPager.setAdapter(mSectionsPagerAdapter);
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+                tabLayout.setupWithViewPager(mViewPager);
                 addTabs();
             }
 
@@ -120,37 +123,7 @@ public class MenuActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -164,16 +137,23 @@ public class MenuActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            PlaceholderFragment p;
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
 
             switch (position) {
                 case 0:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    p = PlaceholderFragment.newInstance(position + 1, item);
+                    p.setTab(position + 1);
+                    return p;
                 case 1:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    p = PlaceholderFragment.newInstance(position + 1, item);
+                    p.setTab(position + 1);
+                    return p;
                 case 2:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    p = PlaceholderFragment.newInstance(position + 1, item);
+                    p.setTab(position + 1);
+                    return p;
             }
             return null;
         }
@@ -197,3 +177,4 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 }
+
