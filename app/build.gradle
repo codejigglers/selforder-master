@@ -28,4 +28,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:11.0.2'
     implementation 'info.androidhive:barcode-reader:1.1.5'
     implementation 'com.airbnb.android:lottie:2.0.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.etiya.etiyabadgetablib:etiyabadgetablib:0.0.3'
 }
