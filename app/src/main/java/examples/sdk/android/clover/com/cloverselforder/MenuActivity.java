@@ -2,6 +2,7 @@ package examples.sdk.android.clover.com.cloverselforder;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -45,7 +46,7 @@ public class MenuActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    Items[] item ;
+    Items[] item;
     int len = 1;
 
     @Override
@@ -63,6 +64,8 @@ public class MenuActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(mViewPager);
         selfOrderApi service = RetrofitInstance.getRetrofitInstance().create(selfOrderApi.class);
 
         /*Call the method with parameter in the interface to get the employee data*/
@@ -75,7 +78,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
                 item = response.body().getMerchant().getItems();
-                Toast.makeText(MenuActivity.this, response.body().getMerchant().getItems().length, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MenuActivity.this, response.body().getMerchant().getItems().length, Toast.LENGTH_LONG).show();
                 addTabs();
             }
 
@@ -163,13 +166,34 @@ public class MenuActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+
+            switch (position) {
+                case 0:
+                    return PlaceholderFragment.newInstance(position + 1);
+                case 1:
+                    return PlaceholderFragment.newInstance(position + 1);
+                case 2:
+                    return PlaceholderFragment.newInstance(position + 1);
+            }
+            return null;
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
             return len;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Tab 1";
+                case 1:
+                    return "Tab 2";
+                default:
+                    return null;
+            }
         }
     }
 }
