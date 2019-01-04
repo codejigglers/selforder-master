@@ -3,6 +3,7 @@ package examples.sdk.android.clover.com.cloverselforder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,11 +61,9 @@ public class PlaceholderFragment extends Fragment {
             MainItemAdapter mainItemAdapter = new MainItemAdapter(getContext(), mainItems);
             RecyclerView recyclerView = rootView.findViewById(R.id.recycler_view);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(mainItemAdapter);
-//      MainItems mainItems1 = (MainItems) Array.get(mainItems, 0);
-//      textView.setText(mainItems1.getDescription());
         } catch (Exception e) {
 
         }

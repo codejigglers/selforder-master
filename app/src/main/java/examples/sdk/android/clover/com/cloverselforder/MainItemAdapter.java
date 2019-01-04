@@ -37,8 +37,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.MyView
         ArrayList<MainItems> mainItem = new ArrayList<>(Arrays.asList(mainItems));
         Log.e("sam", mainItem.get(i).toString());
         viewHolder.item.setText(mainItem.get(i).getItem());
-        viewHolder.price.setText(mainItem.get(i).getPrice());
-        viewHolder.description.setText(mainItem.get(i).getDescription());
+        viewHolder.price.setText("$".concat(mainItem.get(i).getPrice()));
         // loading album cover using Glide library
         ;
     }
@@ -57,7 +56,6 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.MyView
             super(itemView);
             item = (TextView) itemView.findViewById(R.id.item);
             price = (TextView) itemView.findViewById(R.id.price);
-            description = (TextView) itemView.findViewById(R.id.description);
         }
     }
 }
