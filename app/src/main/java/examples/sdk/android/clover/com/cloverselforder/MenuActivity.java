@@ -1,5 +1,9 @@
 package examples.sdk.android.clover.com.cloverselforder;
 
+import android.app.Activity;
+import android.arch.persistence.room.Room;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -18,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +30,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import examples.sdk.android.clover.com.cloverselforder.database.OrderItemDatabase;
+import examples.sdk.android.clover.com.cloverselforder.database.OrderItems;
 import examples.sdk.android.clover.com.cloverselforder.pojo.Items;
 import examples.sdk.android.clover.com.cloverselforder.pojo.MainItems;
 import examples.sdk.android.clover.com.cloverselforder.pojo.Order;
@@ -43,6 +50,7 @@ public class MenuActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    StringBuilder anything = new StringBuilder();
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -50,12 +58,13 @@ public class MenuActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public Items[] item;
     int len = 1;
+    private OrderItemDatabase orderItemDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
+        LinearLayout linearLayout = findViewById(R.id.cartButton);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -68,6 +77,38 @@ public class MenuActivity extends AppCompatActivity {
 
         /*Log the URL called*/
         Log.i("URL Called", call.request().url() + "");
+
+
+        orderItemDatabase = Room.databaseBuilder(getApplicationContext(), OrderItemDatabase.class, "items_db").fallbackToDestructiveMigration().build();
+
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                anything.setLength(0);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<OrderItems> orderItems = orderItemDatabase.daoAccess().fetchAllOrder();
+
+                        for (int i=0; i<orderItems.size(); i++) {
+                            anything.append(orderItems.get(i).getItemName().toString() + " ");
+                            anything.append(String.valueOf(orderItems.get(i).getCost()) + " ");
+                            anything.append(String.valueOf(orderItems.get(i).getQuantity()) + " ");
+                        }
+
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), anything, Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                    }
+                }) .start();
+            }
+        });
 
         call.enqueue(new Callback<Order>() {
             @Override
