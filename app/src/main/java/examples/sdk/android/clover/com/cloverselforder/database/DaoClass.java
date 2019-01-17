@@ -26,4 +26,7 @@ public interface DaoClass {
   @Query("SELECT * FROM OrderItems")
   List<OrderItems> fetchAllOrder ();
 
+  @Query("DELETE FROM OrderItems")
+  public void nukeTable();
+
 }

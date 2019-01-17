@@ -2,6 +2,7 @@ package examples.sdk.android.clover.com.cloverselforder;
 
 import android.app.Activity;
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
@@ -86,27 +87,8 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                anything.setLength(0);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        List<OrderItems> orderItems = orderItemDatabase.daoAccess().fetchAllOrder();
-
-                        for (int i=0; i<orderItems.size(); i++) {
-                            anything.append(orderItems.get(i).getItemName().toString() + " ");
-                            anything.append(String.valueOf(orderItems.get(i).getCost()) + " ");
-                            anything.append(String.valueOf(orderItems.get(i).getQuantity()) + " ");
-                        }
-
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), anything, Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-                    }
-                }) .start();
+                Intent intent = new Intent(getApplicationContext(), CartDetail.class);
+                startActivity(intent);
             }
         });
 
